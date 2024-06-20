@@ -22,14 +22,6 @@ Chart.register(
 	}
 );
 
-Chart.defaults.font.family = 'Bebas Neue';
-Chart.defaults.font.size = 12;
-Chart.defaults.font.weight = 700;
-Chart.defaults.responsive = false;
-Chart.defaults.maintainAspectRatio = false;
-Chart.defaults.animation = false;
-
-
 registerFont('assets/BebasNeue Bold.otf', { family: 'Bebas Neue' });
 
 export const generateDataByTypeForChartJS = (type) => {
@@ -77,7 +69,7 @@ export const generateDataByTypeForChartJS = (type) => {
 
         return { data };
     }else {
-        throw new Error('Invalid type. Supported: <a href="/generate?type=ok">ok</a>, <a href="/generate?type=invalid">invalid</a>');
+        throw new Error('Invalid type. Supported: ok, invalid<br>Go to <a href="/">home</a>');
     }
 }
 
@@ -86,7 +78,22 @@ export const generateRoute = (req, res) => {
     const ctx = canvas.getContext("2d");
 
     // Get type from query string
-    const type = req.url.split("?type=")[1];
+    const urlParams = new URLSearchParams(req.url.split("?")[1]);
+    const type = urlParams.get("type");
+    // Get modifiers
+    const opts = urlParams.get("opts");
+
+    const no_annotations = opts && opts.includes("no-annotations");
+    const no_defaults = opts && opts.includes("no-defaults");
+
+    if(!no_defaults){
+        Chart.defaults.font.family = 'Bebas Neue';
+        Chart.defaults.font.size = 12;
+        Chart.defaults.font.weight = 700;
+        Chart.defaults.responsive = false;
+        Chart.defaults.maintainAspectRatio = false;
+        Chart.defaults.animation = false;
+    }
 
     // Generate data
     const { data } = generateDataByTypeForChartJS(type);
@@ -96,7 +103,7 @@ export const generateRoute = (req, res) => {
     const maxIndex = data.datasets[0].data.indexOf(Math.max(...data.datasets[0].data));
     const average = data.datasets[0].data.reduce((a, b) => a + b, 0) / data.datasets[0].data.length;
 
-    const annotations = {
+    const annotations = !no_annotations && {
         annotations: {
             line1: {
                 type: "line",
@@ -167,7 +174,7 @@ export const generateRoute = (req, res) => {
       data: data,
       options: {
         plugins: {
-          annotation: annotations,
+          annotation: !no_annotations && annotations,
         },
       },
     });
