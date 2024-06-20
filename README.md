@@ -20,4 +20,5 @@ npm start
 Get the issue without annotations and defaults in the chart: `http://localhost:3000/generate?type=invalid&opts=no-annotations,no-defaults`
 
 See `http://localhost:3000/` for examples.
-![Render of overflow issue in Chart JS](overflow-issue-chartjs-11798.png)
+
+![Render of overflow issue in Chart JS](docs/overflow-issue-chartjs-11798.png)
