@@ -8,14 +8,24 @@
   "scripts": {
     "start": "nodemon index.js"
   },
-  "keywords": ["chartjs", "nodejs", "canvas", "live", "example", "image", "chart", "chart.js", "annotations"],
+  "keywords": [
+    "chartjs",
+    "nodejs",
+    "canvas",
+    "live",
+    "example",
+    "image",
+    "chart",
+    "chart.js",
+    "annotations"
+  ],
   "author": "Tobias Nordahl",
   "devDependencies": {
     "nodemon": "^3.1.4"
   },
   "dependencies": {
     "canvas": "^2.11.2",
-    "chart.js": "^4.4.3",
-    "chartjs-plugin-annotation": "^3.0.1"
+    "chart.js": "4.4.3",
+    "chartjs-plugin-annotation": "3.0.0"
   }
 }
