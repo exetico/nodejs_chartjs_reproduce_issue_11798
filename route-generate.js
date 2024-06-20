@@ -32,22 +32,65 @@ Chart.defaults.animation = false;
 
 registerFont('assets/BebasNeue Bold.otf', { family: 'Bebas Neue' });
 
+export const generateDataByTypeForChartJS = (type) => {
+    if(type === "ok"){
+        // Sample data
+        const labels = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        const data = {
+        labels: labels,
+        datasets: [{
+            label: "Cool dataset",
+            backgroundColor: "rgb(255, 99, 132)",
+            borderColor: "rgb(255, 99, 132)",
+            data: Array.from({ length: labels.length }, () => Math.floor(Math.random() * 50)),
+        }]
+        };
+
+        return { data };
+    }
+
+    else if(type === "invalid"){
+        // Generate data for a full year
+        const labels = [];
+        const dataset = [];
+
+        for (let i = 0; i < 12; i++) {
+            const month = i + 1;
+            for (let j = 1; j <= 31; j++) {
+                const day = j < 10 ? `0${j}` : j;
+                labels.push(`${month}/${day}`);
+                for (let k = 0; k < 10; k++) {
+                    dataset.push(Math.floor(Math.random() * 50));
+                }
+            }
+        }
+
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: "Cool dataset",
+                backgroundColor: "rgb(255, 99, 132)",
+                borderColor: "rgb(255, 99, 132)",
+                data: dataset,
+            }]
+        };
+
+        return { data };
+    }else {
+        throw new Error('Invalid type. Supported: <a href="/generate?type=ok">ok</a>, <a href="/generate?type=invalid">invalid</a>');
+    }
+}
 
 export const generateRoute = (req, res) => {
     const canvas = createCanvas(510, 310);
     const ctx = canvas.getContext("2d");
 
-    // Sample data
-    const labels = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    const data = {
-      labels: labels,
-      datasets: [{
-        label: "Cool dataset",
-        backgroundColor: "rgb(255, 99, 132)",
-        borderColor: "rgb(255, 99, 132)",
-        data: Array.from({ length: labels.length }, () => Math.floor(Math.random() * 50)),
-      }]
-    };
+    // Get type from query string
+    const type = req.url.split("?type=")[1];
+
+    // Generate data
+    const { data } = generateDataByTypeForChartJS(type);
+
     // Annotations
     const minIndex = data.datasets[0].data.indexOf(Math.min(...data.datasets[0].data));
     const maxIndex = data.datasets[0].data.indexOf(Math.max(...data.datasets[0].data));

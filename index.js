@@ -3,15 +3,17 @@ import {generateRoute} from "./route-generate.js";
 
 http
   .createServer(function (req, res) {
-    if (req.url === "/generate") {
+    if (req.url.startsWith("/generate")) {
         try{
             return generateRoute(req, res);
         }catch(e){
-            res.write("Error:\n"+e.message);
+            res.writeHead(200, { "Content-Type": "text/html" });
+            res.write("Error:\n" + e.message);
             res.end();
         }
       } else {
-        res.write("Hello you!");
+        res.writeHead(200, { "Content-Type": "text/html" });
+        res.write('Hello, you. Get <a href="/generate?type=ok">ok</a> or <a href="/generate?type=invalid">invalid</a> chart.');
         res.end();
       }
   })
