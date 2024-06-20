@@ -1,0 +1,21 @@
+{
+  "name": "nodejs_chartjs_reproduce_issue_11798",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  },
+  "dependencies": {
+    "canvas": "^2.11.2",
+    "chart.js": "^4.4.3",
+    "chartjs-plugin-annotation": "^3.0.1"
+  }
+}
